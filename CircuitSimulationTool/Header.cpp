@@ -1,10 +1,30 @@
 #include "header.h"
 
 
+void init(circuit & circ, int n){
+	circ.head = NULL;
+	circ.num_nodes = n;
+
+	circ.J = new element[MAX_ELEMENTS];
+	circ.R = new element[MAX_ELEMENTS];
+	circ.E = new element[MAX_ELEMENTS];
+
+	for (int i = 0; i < MAX_ELEMENTS; i++) {
+		circ.J[i].value = 0;
+		circ.E[i].value = 0;
+		circ.R[i].value = 0;
+		circ.R[i].second = NULL;
+		circ.R[i].first = NULL;
+		circ.J[i].second = NULL;
+		circ.J[i].first = NULL;
+		circ.E[i].second = NULL;
+		circ.E[i].first = NULL;
+	}
+}
+
 node* addthenode(node *& head)
 {
-	if (head == NULL)
-	{
+	if (head == NULL){
 		head = new node;
 		head->N = 1;
 		head->m = 0;
@@ -14,38 +34,32 @@ node* addthenode(node *& head)
 	}
 	node* p = head;
 	int i = 2;
-	while (p->next)
-	{
-		p = p->next;
-		i++;
-	}
+	while (p->next) 
+		p = p->next, i++;
 	node* t = new node;
-	p->next = t;
 	t->N = i;
 	t->m = 0;
 	t->next = NULL;
 	t->the_elements = NULL;
+	p->next = t;
 	return t;
 }
 
-bool check_and_add(circuit cir, char A, int d, node* node0, double value0) //false when no nodes or the elemnt already connected with 2 elemnt
+bool check_and_add(circuit cir, char A, int d, node* node0, double value0) //false when no nodes or the element already connected with 2 nodes
 {
 	if (cir.head == NULL)
 		return false;
 	double value2;
 	element* H = NULL;
-	if (A == 'R')
-	{
+	if (A == 'R'){
 		H = cir.R;
 		value2 = value0;
 	}
-	if (A == 'E')
-	{
+	if (A == 'E'){
 		H = cir.E;
 		value2 = -value0;
 	}
-	if (A == 'J')
-	{
+	if (A == 'J'){
 		H = cir.J;
 		value2 = -value0;
 	}
@@ -121,27 +135,6 @@ bool check_volt(circuit circ)
 		i++;
 	}
 	return (test1 && test2);
-}
-
-void init(circuit & circ)
-{
-	circ.J = new element[1000];
-	circ.R = new element[1000];
-	circ.E = new element[1000];
-	int i = 0;
-	while (i < 1000)
-	{
-		circ.J[i].value = 0;
-		circ.E[i].value = 0;
-		circ.R[i].value = 0;
-		circ.R[i].second = NULL;
-		circ.R[i].first = NULL;
-		circ.J[i].second = NULL;
-		circ.J[i].first = NULL;
-		circ.E[i].second = NULL;
-		circ.E[i].first = NULL;
-		i++;
-	}
 }
 
 double superposition(circuit circ, char l, char we[], int g, int s, int d) //l : the thing he want , m[0] :the elemnt we want to calculate and y is the number , m[2] :the element the reson for that and w is the number

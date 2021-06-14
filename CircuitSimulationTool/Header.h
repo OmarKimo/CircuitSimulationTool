@@ -4,6 +4,8 @@
 using namespace Eigen;
 using namespace std;
 
+#define MAX_ELEMENTS 1000
+
 struct node;
 struct element;
 struct circuit;
@@ -45,11 +47,10 @@ struct circuit
 	element* J;
 };
 
-
+void init(circuit &, int);
 double norton(circuit, int, double &);
 bool check_volt(circuit);
 bool check(circuit);
-void init(circuit &);
 double superposition(circuit, char, char[], int, int, int);
 void node_analysis2(circuit &);
 void node_analysis(circuit &);
